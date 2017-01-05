@@ -3,6 +3,7 @@
 namespace Stof\DoctrineExtensionsBundle\EventListener;
 
 use Gedmo\Loggable\LoggableListener;
+use Gedmo\IpTraceable\IpTraceableListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -61,6 +62,10 @@ class LoggerListener implements EventSubscriberInterface
 
         if (null !== $token && $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $this->loggableListener->setUsername($token);
+            $ip = $event->getRequest()->getClientIp();
+            // var_dump($ip);die();
+            $this->loggableListener->setIp($ip);
+            // var_dump($this->loggableListener);die();
         }
     }
 
